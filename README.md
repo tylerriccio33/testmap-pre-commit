@@ -28,3 +28,11 @@ installs it, and the install pulls in the matching `testmap`; the hook then runs
 
 Each release tag pins a specific `testmap` version, so a given `rev` always
 installs the same tool.
+
+## Staying in sync
+
+`.github/workflows/sync.yml` runs daily (and on demand): it checks PyPI for the
+latest `testmap`, rewrites the pin to `testmap==<version>`, and pushes a matching
+`v<version>` tag — so the mirror tracks releases with no manual step. The current
+`v0.1.0` is a bootstrap pinned to a testmap commit; once `testmap>=0.3.0` is on
+PyPI the workflow takes over and cuts version-aligned tags.

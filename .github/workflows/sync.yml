@@ -1,0 +1,40 @@
+name: sync
+
+# Keep the mirror in lockstep with testmap's PyPI releases so the pin is never
+# updated by hand. Polls daily; also runnable on demand.
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write # commit the new pin and push a tag
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve latest testmap and rewrite the pin
+        id: pin
+        run: echo "version=$(python3 update_pin.py)" >> "$GITHUB_OUTPUT"
+
+      - name: Tag the mirror for that version if not already tagged
+        if: steps.pin.outputs.version != ''
+        env:
+          TAG: v${{ steps.pin.outputs.version }}
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "$TAG already exists; nothing to do"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet; then
+            git commit -am "chore: pin testmap==${{ steps.pin.outputs.version }}"
+            git push origin HEAD:${{ github.ref_name }}
+          fi
+          git tag "$TAG"
+          git push origin "$TAG"

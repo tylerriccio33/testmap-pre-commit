@@ -6,9 +6,10 @@
 # pin via `rev:`. No `requires-python` here (testmap's own floor still applies).
 name = "testmap-pre-commit"
 version = "0.0.0"
-# Pinned to an immutable testmap commit for reproducibility. Bump this (and cut a
-# new mirror tag) per testmap release; switch to `testmap==X` once that version
-# is on PyPI.
+# Bootstrap pin: an immutable testmap commit on main that already has the
+# coverage-gate exit code, used until testmap>=0.3.0 lands on PyPI. From then on
+# update_pin.py / the sync workflow rewrite this to `testmap==<version>` and tag
+# the mirror automatically — no manual re-pinning.
 dependencies = [
-    "testmap @ git+https://github.com/tylerriccio33/testmap.git@1b88d79dd2b8a6f8710f7f3aef6e186a4e1bbc7e#subdirectory=packages/testmap",
+    "testmap @ git+https://github.com/tylerriccio33/testmap.git@58614dcfcc5e9cea267793424696ec8550e8e65f#subdirectory=packages/testmap",
 ]
