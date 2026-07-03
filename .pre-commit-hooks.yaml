@@ -1,0 +1,10 @@
+- id: testmap
+  name: testmap
+  description: Fail the commit when features aren't sufficiently covered by tests.
+  entry: testmap report
+  language: python
+  # Coverage is a whole-suite property, not a per-file one, so run once with no
+  # filenames appended and regardless of which files changed.
+  pass_filenames: false
+  always_run: true
+  minimum_pre_commit_version: "2.9.2"

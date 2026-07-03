@@ -1,0 +1,14 @@
+[project]
+# A pre-commit mirror, ruff-pre-commit style: this package is never published to
+# PyPI. pre-commit clones this repo at a tag, `pip install .`s it, and the sole
+# dependency below brings in `testmap` so the hook can run `testmap report`.
+# `version` is a static placeholder — the real version is the git tag consumers
+# pin via `rev:`. No `requires-python` here (testmap's own floor still applies).
+name = "testmap-pre-commit"
+version = "0.0.0"
+# Pinned to an immutable testmap commit for reproducibility. Bump this (and cut a
+# new mirror tag) per testmap release; switch to `testmap==X` once that version
+# is on PyPI.
+dependencies = [
+    "testmap @ git+https://github.com/tylerriccio33/testmap.git@1b88d79dd2b8a6f8710f7f3aef6e186a4e1bbc7e#subdirectory=packages/testmap",
+]
