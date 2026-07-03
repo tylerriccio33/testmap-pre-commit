@@ -4,12 +4,21 @@
 # dependency below brings in `testmap` so the hook can run `testmap report`.
 # `version` is a static placeholder — the real version is the git tag consumers
 # pin via `rev:`. No `requires-python` here (testmap's own floor still applies).
-name = "testmap==0.3.0"
+name = "testmap-pre-commit"
 version = "0.0.0"
-# Bootstrap pin: an immutable testmap commit on main that already has the
-# coverage-gate exit code, used until testmap>=0.3.0 lands on PyPI. From then on
-# update_pin.py / the sync workflow rewrite this to `testmap==<version>` and tag
-# the mirror automatically — no manual re-pinning.
+# Kept in lockstep with testmap's PyPI releases by update_pin.py / the sync
+# workflow, which rewrite this line and tag the mirror v<version> — no manual
+# re-pinning.
 dependencies = [
     "testmap==0.3.0",
 ]
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+# Metadata-only: no modules to package (update_pin.py is tooling, not shipped),
+# so setuptools never runs flat-layout auto-discovery — the build is identical
+# across Python and setuptools versions.
+[tool.setuptools]
+py-modules = []

@@ -1,0 +1,7 @@
+README.md
+pyproject.toml
+testmap_pre_commit.egg-info/PKG-INFO
+testmap_pre_commit.egg-info/SOURCES.txt
+testmap_pre_commit.egg-info/dependency_links.txt
+testmap_pre_commit.egg-info/requires.txt
+testmap_pre_commit.egg-info/top_level.txt

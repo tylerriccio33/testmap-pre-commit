@@ -31,8 +31,10 @@ def main() -> None:
         return
 
     text = PYPROJECT.read_text(encoding="utf-8")
-    # Replace whatever the single `testmap ...` requirement is (git pin or ==).
-    pinned = re.sub(r'"testmap[^"]*"', f'"testmap=={latest}"', text)
+    # Replace the `testmap` requirement (either a `==` pin or a `@ git+...` pin).
+    # The `(?:==|@)` boundary is required so this never matches other strings that
+    # merely start with "testmap", e.g. the project name "testmap-pre-commit".
+    pinned = re.sub(r'"testmap ?(?:==|@)[^"]*"', f'"testmap=={latest}"', text)
     if pinned != text:
         PYPROJECT.write_text(pinned, encoding="utf-8")
     print(latest)  # the version the workflow should tag as v<latest>
