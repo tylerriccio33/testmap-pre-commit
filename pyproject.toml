@@ -10,7 +10,7 @@ version = "0.0.0"
 # workflow, which rewrite this line and tag the mirror v<version> — no manual
 # re-pinning.
 dependencies = [
-    "testmap==0.3.0",
+    "testmap==0.4.0",
 ]
 
 [build-system]
